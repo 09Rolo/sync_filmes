@@ -1,2 +1,4 @@
 /film/*
 /rendszer/node_modules/**/*
+
+/rendszer/test.html
