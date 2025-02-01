@@ -1,0 +1,425 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    background-color: rgb(30, 30, 30);
+    color: white;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+video::-webkit-media-controls-fullscreen-button, video::-webkit-media-controls-play-button, video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+}
+
+video::cue {
+    display: none;
+}
+
+video::-webkit-media-controls-current-time-display {
+    font-size: larger;
+    font-weight: bolder;
+    color: cyan;
+}
+
+video::-webkit-media-controls-panel {
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: transparent !important;
+    background-image: none !important;
+}
+
+video {
+    pointer-events: all;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: black;
+}
+
+
+
+
+#inputbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
+
+#inputbox p {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+
+.radiob {
+    margin: 5px;
+    padding: 7px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.9);
+    font-weight: bolder;
+    font-size: larger;
+    letter-spacing: 4px;
+}
+
+.radiob label {
+    background-color: transparent;
+}
+
+.radiob > input[type="radio"] {
+    scale: 1.2;
+}
+
+
+.inputtext {
+    background-color: black;
+    border: 3px solid white;
+    margin: 20px;
+    border-radius: 40px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.4s;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputtext:hover {
+    border: 3px solid rgb(0, 255, 0);
+    scale: 1.05;
+    transition: 0.4s;
+}
+
+
+
+#selectlink {
+    font-size: 15px;
+    padding: 10px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.4s;
+    background-color: rgb(20, 20, 20);
+    margin-left: 30px;
+    border: 3px solid rgb(0, 255, 0);
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#selectlink:hover {
+    background-color: rgb(0, 255, 0);
+    transition: 0.4s;
+}
+
+
+
+#varj {
+    font-size: larger;
+    padding: 10px;
+    margin-top: 30px;
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+#buttons {
+    margin-top: 40px;
+    rotate: 0deg;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-around;
+    display: flex;
+    background-color: transparent;
+    z-index: 99;
+}
+
+
+
+#playpause {
+    text-align: center;
+    background-color: rgb(0, 150, 0);
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+
+    display: flex;
+    margin-top: 0px;
+    justify-content: center;
+    align-items: center;
+    
+    border: 3px solid rgb(0, 150, 0);
+    border-radius: 100px;
+
+    width: fit-content;
+    opacity: 1;
+    transition: 0.4s;
+}
+
+#playpause:hover {
+    font-size: 21px;
+    border: 3px solid rgb(100, 0, 0);
+    transition: 0.4s;
+}
+
+
+#fullscreenbtn {
+    text-align: center;
+    background-color: cyan;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+
+    display: flex;
+    margin-top: 0px;
+    justify-content: center;
+    align-items: center;
+    
+    border: 3px solid cyan;
+    border-radius: 100px;
+
+    width: fit-content;
+    opacity: 1;
+}
+
+#fullscreenbtn:hover {
+    font-size: 21px;
+    border: 3px solid rgb(100, 0, 0);
+    transition: 0.4s;
+}
+
+
+
+
+#player {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: black;
+    border: 3px solid rgb(100, 0, 0);
+    border-radius: 30px;
+}
+
+
+#film {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(0deg) translate(0%,0%);
+    transform-origin: center center;
+    background-color: black;
+}
+
+
+
+#infok {
+    min-width: 85%;
+    max-width: 85%;
+    width: 85%;
+    height: fit-content;
+    position: relative;
+    margin: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border: 2px solid rgb(100, 0, 0);
+    border-radius: 50px;
+    background-color: rgba(10, 10, 10, 0.6);
+}
+
+#topinfok {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+}
+
+
+#mute {
+    margin-left: 35px;
+    border: none;
+    background-color: rgb(100, 0, 0);
+    border-radius: 20px;
+    padding: 5px;
+    font-weight: bolder;
+
+    transition: 0.4s;
+}
+
+#mute:hover {
+    background-color: rgb(100, 100, 0);
+}
+
+
+
+#synccucc {
+    margin-right: 35px;
+    border: none;
+    background-color: rgb(0, 0, 100);
+    border-radius: 20px;
+    padding: 5px;
+    font-weight: bolder;
+
+    transition: 0.4s;
+}
+
+#synccucc:hover {
+    background-color: rgb(0, 100, 100);
+}
+
+
+
+.idoszam {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.idoszam:nth-child(2) {
+    color: cyan;
+}
+
+
+#bottominfok {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    width: 100%;
+    height: fit-content;
+    margin-top: 10px;
+}
+
+
+#timeline {
+    width: 100%;
+    height: .5em;
+    background-color: rgba(100, 100, 100, 0.4);
+    border-radius: 5px;
+    background-size: 0% 100%;
+    background-image: linear-gradient(#fff, #fff);
+    background-repeat: no-repeat;
+}
+
+
+@media screen and (max-width: 500px) {
+
+
+    #playpause {
+        text-align: center;
+        background-color: green;
+        color: black;
+        font-weight: 1000;
+        font-size: 15px;
+        padding: 10px;
+    
+        display: flex;
+        margin-top: 0px;
+        justify-content: center;
+        align-items: center;
+    
+        border: 2px solid white;
+        border-radius: 100px;
+    }
+    
+    
+    #fullscreenbtn {
+        text-align: center;
+        background-color: cyan;
+        color: black;
+        font-weight: 1000;
+        font-size: 15px;
+        padding: 10px;
+    
+        display: flex;
+        margin-top: 0px;
+        justify-content: center;
+        align-items: center;
+    
+        border: 2px solid white;
+        border-radius: 100px;
+    }
+
+}
+
+
+
+/*
+#player:fullscreen {
+    border: none;
+}
+
+#film:fullscreen {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg) translate(0%,0%);
+    transform-origin: center center;
+    background-color: black;
+}
+
+#buttons:fullscreen {
+    margin-top: 0px;
+    rotate: 90deg;
+    position: fixed;
+    width: 100vh;
+    height: 60vw;
+    justify-content: space-between;
+}
+
+#playpause:fullscreen {
+    color: transparent;
+    width: 65%;
+    opacity: 0;
+}
+
+#fullscreenbtn:fullscreen {
+    color: transparent;
+    width: 30%;
+    opacity: 0;
+}
+*/

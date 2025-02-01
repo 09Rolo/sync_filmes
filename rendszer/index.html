@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SZAR A KOLI ÉS CSAK ÍGY LEHET</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="fo">
+        <div id="selector">
+            <div id="inputbox">
+                <p>Milyen formában van a film?</p>
+
+                <div class="radiob">
+                    <label for="link_button">Link</label>
+                    <input type="radio" name="tipus" id="link_button" checked>
+                </div>
+
+                <div class="radiob">
+                    <label for="file_button">File</label>
+                    <input type="radio" name="tipus" id="file_button">
+                </div>
+
+                <input type="text" id="link" class="inputtext" placeholder="https://..." onchange="linkadded()">
+                <input type="text" id="file" class="inputtext" placeholder="A file pontos neve" onchange="linkadded()">
+            </div>
+            <button id="selectlink" onclick="linkvalasztva()">Mehet!</button>
+            <br><br>
+            <br><br>
+        </div>
+    </div>
+
+    <div id="player"> 
+        <video id="film" width="100%" controlslist="nofullscreen noplaybackrate">
+            <source id="film_source" src="" type="video/mp4">
+        </video>
+
+        <div id="buttons">
+            <button id="playpause" onclick="playpause()">Lejátszás/Megállítás</button>
+            <button id="fullscreenbtn" onclick="toggleFullScreen()">Nagyítás</button>
+        </div>
+    </div>
+
+    <div id="egyeb">
+        <p id="varj">Jelenleg nincs itt semmi, várj egy kicsit</p>
+
+        <div id="infok">
+            <div id="topinfok">
+                <button id="synccucc">Szinkronba</button>
+                <p id="jelenlegiido" class="idoszam">0</p>
+                <p id="kettop">:</p>
+                <p id="hosszido" class="idoszam">0</p>
+                <button id="mute">Némítás</button>
+            </div>
+            <div id="bottominfok">
+                <span id="timeline"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const script = document.createElement("script");
+        script.src = `${window.location.origin}/browser-sync/browser-sync-client.js`;
+
+        script.onload = () => {
+            console.log(window.___browserSync___);  // Should now be defined once the script is loaded
+
+            const script_c = document.createElement("script");
+            script_c.src = "script.js";
+            document.head.appendChild(script_c);
+        };
+
+        document.head.appendChild(script);
+    </script>
+
+    <!--<script src="script.js"></script>-->
+</body>
+</html>

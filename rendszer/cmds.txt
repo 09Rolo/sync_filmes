@@ -1,0 +1,10 @@
+npm init -y
+
+npm install browser-sync
+
+"scripts": {
+    "start": "browser-sync start -s",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+npm run start

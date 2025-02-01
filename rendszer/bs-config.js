@@ -1,0 +1,35 @@
+const browserSync = require('browser-sync').create();
+
+module.exports = {
+    server: {
+        baseDir: ["../film", "./"],
+    },
+    files: ["index.html", "css/*.css", "js/*.js", "../film/*"],
+    open: true, // Automatically open browser
+    notify: false, // Disable notifications in the browser
+
+    ghostMode: {
+        clicks: false, // Disable click synchronization
+        scroll: false, // Disable scroll synchronization
+        forms: false,  // Disable form synchronization
+    },
+
+    injectChanges: true, // Enable script injection
+
+    // Custom hook to handle socket events after BrowserSync starts
+    callbacks: {
+        ready: function (err, bs) {
+            bs.io.sockets.on("connection", (client) => {
+                console.log("A browser connected!");
+
+                // Listen for custom events
+                client.on("custom:event", (data) => {
+                    console.log("Received custom event:", data);
+
+                    // Broadcast the custom event to all connected clients
+                    bs.io.sockets.emit("custom:event", data);  // Broadcasting to all connected clients
+                });
+            });
+        }
+    }
+};
