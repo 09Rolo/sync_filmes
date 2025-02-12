@@ -318,6 +318,7 @@ film.ontimeupdate = function() {
 }
 
 
+
 function ugras(hova) {
     film.currentTime = hova
     elozotime = hova
