@@ -9,6 +9,7 @@ var infok = document.getElementById("infok")
 var selectlink = document.getElementById("selectlink")
 var film = document.getElementById("film")
 var varjszoveg = document.getElementById("varj")
+var iphoneforward = document.getElementById("iphoneforward")
 var buttons = document.getElementById("buttons")
 var p_button = document.getElementById("playpause")
 var fullscreenbtn = document.getElementById("fullscreenbtn")
@@ -118,6 +119,9 @@ film.onpause = function () {
 
 
     if (fullscreened) {
+        if (window.location.href.split("#")[1] == "ios") {
+            resetFullscreenStyles()
+        }
         p_button.textContent = "Stoppolva"
         p_button.style.color = "white"
         p_button.style.backgroundColor = "transparent";
@@ -229,6 +233,7 @@ function linkvalasztva(masbrowseres, tipus) {
         film.poster = "./loaded.png";
 
         varjszoveg.style.display = "none"
+        iphoneforward.style.display = "none"
 
         if (window.location.href.split("#")[1] == "fo") {
             p_button.style.display = "";
@@ -254,6 +259,7 @@ film.onloadeddata = function() {
 }
 
 var elozotime = undefined
+var paraszttime = undefined
 
 film.ontimeupdate = function() {
     const percentagePosition = (100*film.currentTime) / film.duration;
@@ -291,6 +297,23 @@ film.ontimeupdate = function() {
         }
 
         window.___browserSync___.socket.emit("custom:event", { action: "timesave_synchez", data: film.currentTime});
+    } else {
+        if (fotime) {
+            //console.log(film.currentTime, fotime)
+            if ((film.currentTime - fotime > 2) || (fotime - film.currentTime > 2)) {
+                //megállt az emberkének aki nem boss
+
+                setTimeout(() => {
+                    film.pause()
+                }, 100);
+
+                if (window.___browserSync___) {
+                    window.___browserSync___.socket.emit("custom:event", { action: "pause" });
+            
+                    ugras(fotime)
+                }
+            }
+        }
     }
 }
 
@@ -323,27 +346,37 @@ synccucc.onclick = function() {
 
 
 
+
+
+
 /////////////////////////////////////////////////////////////Fullscreenes cuccok
 fullscreenbtn.onclick = function () {
     toggleFullscreen();
 };
 
 function toggleFullscreen() {
+    var tofullba = player
+
+    if (window.location.href.split("#")[1] == "ios") {
+        tofullba = document.documentElement
+    }
+
+
     if (!document.fullscreenElement) {
-        if (player.requestFullscreen) {
-            player.requestFullscreen().catch((err) => {
+        if (tofullba.requestFullscreen) {
+            tofullba.requestFullscreen().catch((err) => {
                 resetFullscreenStyles();
             });
-        } else if (player.mozRequestFullScreen) {
-            player.mozRequestFullScreen().catch((err) => {
+        } else if (tofullba.mozRequestFullScreen) {
+            tofullba.mozRequestFullScreen().catch((err) => {
                 resetFullscreenStyles();
             }); // Firefox
-        } else if (player.webkitRequestFullscreen) {
-            player.webkitRequestFullscreen().catch((err) => {
+        } else if (tofullba.webkitRequestFullscreen) {
+            tofullba.webkitRequestFullscreen().catch((err) => {
                 resetFullscreenStyles();
             }); // Chrome, Safari, and Opera
-        } else if (player.msRequestFullscreen) {
-            player.msRequestFullscreen().catch((err) => {
+        } else if (tofullba.msRequestFullscreen) {
+            tofullba.msRequestFullscreen().catch((err) => {
                 resetFullscreenStyles();
             }); // IE/Edge
         }
@@ -367,6 +400,10 @@ function toggleFullscreen() {
             document.msExitFullscreen().catch((err) => {
                 resetFullscreenStyles();
             }); // IE/Edge
+        }
+
+        if (window.location.href.split("#")[1] == "ios") {
+            infok.style.display = ""
         }
 
         fullscreened = false
@@ -402,6 +439,10 @@ function applyFullscreenStyles() {
         fullscreenbtn.style.width = "30%"
         fullscreenbtn.style.opacity = "0"
     }
+
+    if (window.location.href.split("#")[1] == "ios") {
+        infok.style.display = "none"
+    }
 }
 
 
@@ -432,13 +473,37 @@ function resetFullscreenStyles() {
         fullscreenbtn.style.width = "fit-content"
         fullscreenbtn.style.opacity = "1"
     }
+
+    if (window.location.href.split("#")[1] == "ios") {
+        infok.style.display = ""
+    }
 }
 
 
 if (window.___browserSync___) {
     window.___browserSync___.socket.on("custom:event", function (data) {
         if (data.action === "fullscreen-triggered") {
-            console.log("Fullscreen triggered, but not syncing this action.");
+            console.log("fullscreen de csak itt")
         }
     });
+}
+
+
+
+
+
+
+
+if (window.location.href.split("#")[1] == "ios") {
+    iphoneforward.style.display = "none"
+}
+
+function toios() {
+    if (!window.location.href.split("#")[1]) {
+        alert("Siker")
+        window.location.href = window.location.href + "#ios"
+        window.location.reload()
+    } else {
+        alert("Már van valami az urlben a # után")
+    }
 }

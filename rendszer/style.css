@@ -127,7 +127,7 @@ video {
 
 
 
-#varj {
+#varj, #iphoneforward {
     font-size: larger;
     padding: 10px;
     margin-top: 30px;
@@ -135,6 +135,18 @@ video {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+#iphoneforward button {
+    border: none;
+    text-decoration: underline;
+    color: rgb(145, 75, 45);
+    background-color: transparent;
+    margin: 5px;
+    font-size: larger;
+    cursor: pointer;
 }
 
 
