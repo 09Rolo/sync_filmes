@@ -3,6 +3,13 @@ const browserSync = require('browser-sync').create();
 module.exports = {
     server: {
         baseDir: ["../film", "./"],
+
+        middleware: function (req, res, next) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS");
+            res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+            next();
+        }
     },
     files: ["index.html", "css/*.css", "js/*.js", "../film/*"],
     open: true, // Automatically open browser
@@ -15,6 +22,9 @@ module.exports = {
     },
 
     injectChanges: true, // Enable script injection
+
+    port: 99,
+    open: false,
 
     // Custom hook to handle socket events after BrowserSync starts
     callbacks: {

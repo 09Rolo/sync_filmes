@@ -1,9 +1,10 @@
 
-
+//cuccok
 var foresz = document.getElementById("fo")
 var link = document.getElementById("link")
 var fotime = 0
 
+var film_source = document.getElementById("film_source");
 var player = document.getElementById("player")
 var infok = document.getElementById("infok")
 var selectlink = document.getElementById("selectlink")
@@ -27,6 +28,10 @@ var synccucc = document.getElementById("synccucc")
 
 var fullscreened = false
 
+
+
+
+//basic webloaded cuccok
 film.style.display = "none";
 selectlink.style.display = "none";
 p_button.style.display = "none";
@@ -42,7 +47,6 @@ if (window.location.href.split("#")[1] != "fo") {
     varjszoveg.textContent = "Válaszd ki a filmet"
     film.controls = true
 }
-
 
 
 
@@ -66,10 +70,37 @@ if (window.location.href.split("#")[1] == "fo") {
 }
 
 
+if (window.location.href.split("#")[1] == "ios") {
+    iphoneforward.style.display = "none"
+}
+
+
+
+if (window.___browserSync___) {
+    console.log("van bs")
+    window.___browserSync___.socket.on("custom:event", function (data) {
+        console.log(data.action)
+        if (data.action === "play" && film.paused) {
+            film.play()
+        } else if (data.action === "pause" && !film.paused) {
+            film.pause()
+        } else if (data.action === "linkvalasztva") {
+            linkvalasztva(data.data, data.tipus)
+        } else if (data.action === "timeupdate") {
+            ugras(data.data)
+        } else if (data.action === "timesave_synchez") {
+            fotime = data.data
+        }
+    });
+}
 
 
 
 
+
+
+
+//functions
 function secondsToHms(d) {
     d = Number(d);
     var h = Math.floor(d / 3600);
@@ -81,7 +112,92 @@ function secondsToHms(d) {
     var sDisplay = s;
 
     return hDisplay + mDisplay + sDisplay;
-  }
+}
+
+
+
+var kivalasztott_film = undefined
+
+function createblob(videoneve) {
+    const videoUrl = `${window.location.origin}/${videoneve}`;
+    console.log("Fetching:", videoUrl);
+
+    fetch(videoUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            return response.blob();
+        })
+        .then(blob => {
+            const url = URL.createObjectURL(blob);
+            console.log("url", url)
+            kivalasztott_film = url
+
+            //ugyan az kb mint lent
+            film_source.src = kivalasztott_film
+
+            film.load()
+            film.poster = "./loaded.png";
+    
+            varjszoveg.style.display = "none"
+            iphoneforward.style.display = "none"
+    
+            if (window.location.href.split("#")[1] == "fo") {
+                p_button.style.display = "";
+                fullscreenbtn.style.display = "";
+            }
+    
+            player.style.display = ""
+            infok.style.display = ""
+        
+            film.style.display = "";
+            console.log(film_source);
+        })
+        .catch(error => console.error("Fetch error:", error));
+
+
+    /*
+        //vagy ha nem működne vagy egyéb. nincs iphone nem tudom tesztelni
+        kivalasztott_film = videoUrl
+
+        //ugyan az kb mint lent
+        film_source.src = kivalasztott_film
+
+        film.load()
+        film.poster = "./loaded.png";
+
+        varjszoveg.style.display = "none"
+        iphoneforward.style.display = "none"
+
+        if (window.location.href.split("#")[1] == "fo") {
+            p_button.style.display = "";
+            fullscreenbtn.style.display = "";
+        }
+
+        player.style.display = ""
+        infok.style.display = ""
+    
+        film.style.display = "";
+        console.log(film_source);
+    */
+}
+
+
+
+
+function toios() {
+    if (!window.location.href.split("#")[1]) {
+        alert("Siker")
+        window.location.href = window.location.href + "#ios"
+        window.location.reload()
+    } else {
+        alert("Már van valami az urlben a # után")
+    }
+}
+
+
 
 
 
@@ -136,27 +252,6 @@ film.onpause = function () {
 
 
 
-
-if (window.___browserSync___) {
-    console.log("asd")
-    window.___browserSync___.socket.on("custom:event", function (data) {
-        console.log(data.action)
-        if (data.action === "play" && film.paused) {
-            film.play()
-        } else if (data.action === "pause" && !film.paused) {
-            film.pause()
-        } else if (data.action === "linkvalasztva") {
-            linkvalasztva(data.data, data.tipus)
-        } else if (data.action === "timeupdate") {
-            ugras(data.data)
-        } else if (data.action === "timesave_synchez") {
-            fotime = data.data
-        }
-    });
-}
-
-
-
 function playpause() {
     if (film.paused) {
         if (window.___browserSync___) {
@@ -190,7 +285,7 @@ function linkvalasztva(masbrowseres, tipus) {
         tipus = tipusa
     }
 
-    console.log(tipus)
+    //console.log(tipus)
 
     if (masbrowseres != undefined) {
         if (tipus == "link") {
@@ -214,14 +309,19 @@ function linkvalasztva(masbrowseres, tipus) {
 
 
     if (tipus == "link") {
-        var kivalasztott_film = link.value
+        kivalasztott_film = link.value
     } else if (tipus == "file") {
-        var kivalasztott_film = file.value
+        kivalasztott_film = file.value
+        
+        if (window.location.href.split("#")[1] == "ios") {
+            kivalasztott_film = "pending"
+            createblob(file.value)
+        }
     }
     
+    console.log(kivalasztott_film)
 
-    if (kivalasztott_film) {    
-        var film_source = document.getElementById("film_source");
+    if (kivalasztott_film && kivalasztott_film != "pending") {
 
         if (tipus == "link") {
             film_source.src = kivalasztott_film
@@ -249,6 +349,9 @@ function linkvalasztva(masbrowseres, tipus) {
 }
 
 
+
+
+
 film.addEventListener('click', (event) => {
     event.preventDefault();
 });
@@ -257,6 +360,8 @@ film.addEventListener('click', (event) => {
 film.onloadeddata = function() {
     hosszido.textContent = secondsToHms(film.duration)
 }
+
+
 
 var elozotime = undefined
 var paraszttime = undefined
@@ -487,24 +592,4 @@ if (window.___browserSync___) {
             console.log("fullscreen de csak itt")
         }
     });
-}
-
-
-
-
-
-
-
-if (window.location.href.split("#")[1] == "ios") {
-    iphoneforward.style.display = "none"
-}
-
-function toios() {
-    if (!window.location.href.split("#")[1]) {
-        alert("Siker")
-        window.location.href = window.location.href + "#ios"
-        window.location.reload()
-    } else {
-        alert("Már van valami az urlben a # után")
-    }
 }
